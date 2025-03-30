@@ -24,7 +24,7 @@ class SplashScreenViewController: UIViewController {
     
     func goToGameScreen() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let gameVC = storyboard.instantiateViewController(withIdentifier: "GameVC") as? GameViewController {
+        if let gameVC = storyboard.instantiateViewController(withIdentifier: "GameVC") as? MenuViewController {
             gameVC.modalTransitionStyle = .crossDissolve
             gameVC.modalPresentationStyle = .fullScreen
             self.present(gameVC, animated: true, completion: nil)
