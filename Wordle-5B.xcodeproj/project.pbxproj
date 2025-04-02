@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXFileReference section */
@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0483F7BF2D94AFD4005552B6 /* Exceptions for "Wordle-5B" folder in "Wordle-5B" target */ = {
+		0483F7BF2D94AFD4005552B6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -21,14 +21,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0483F7AF2D94AFD3005552B6 /* Wordle-5B */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				0483F7BF2D94AFD4005552B6 /* Exceptions for "Wordle-5B" folder in "Wordle-5B" target */,
-			);
-			path = "Wordle-5B";
-			sourceTree = "<group>";
-		};
+		0483F7AF2D94AFD3005552B6 /* Wordle-5B */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0483F7BF2D94AFD4005552B6 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Wordle-5B"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +92,7 @@
 				};
 			};
 			buildConfigurationList = 0483F7A82D94AFD3005552B6 /* Build configuration list for PBXProject "Wordle-5B" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -107,7 +101,6 @@
 			);
 			mainGroup = 0483F7A42D94AFD3005552B6;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 0483F7AE2D94AFD3005552B6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
