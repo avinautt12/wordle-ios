@@ -46,17 +46,17 @@
             <objects>
                 <viewController storyboardIdentifier="CreditsVC" id="d3o-qH-QwD" customClass="CreditsViewController" customModule="Wordle_5B" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z3R-Ps-ThF">
-                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="946"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UTTcompletoverticalRGB.png" translatesAutoresizingMaskIntoConstraints="NO" id="nkL-aa-Fg0">
-                                <rect key="frame" x="30" y="132" width="380" height="202.66666666666663"/>
+                                <rect key="frame" x="30" y="69.999999999999986" width="380" height="202.66666666666663"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="nkL-aa-Fg0" secondAttribute="height" multiplier="15:8" id="czT-p0-C2R"/>
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Tx-Sz-tys">
-                                <rect key="frame" x="15" y="384.66666666666674" width="410" height="437.33333333333326"/>
+                                <rect key="frame" x="15" y="322.66666666666669" width="410" height="523.33333333333326"/>
                                 <color key="tintColor" systemColor="linkColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
@@ -130,6 +130,9 @@
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="baseBackgroundColor" red="0.41960784309999999" green="0.66523581740000004" blue="0.39727261660000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <segue destination="eAJ-nb-0og" kind="presentation" id="18o-Dn-9BV"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RaV-Ay-8UP">
                                 <rect key="frame" x="100" y="502" width="240" height="50"/>
@@ -158,11 +161,14 @@
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="RECORDS">
+                                <buttonConfiguration key="configuration" style="filled" title="CREDITOS">
                                     <fontDescription key="titleFontDescription" name="Futura-Bold" family="Futura" pointSize="22"/>
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="baseBackgroundColor" red="0.41960784309999999" green="0.66523581740000004" blue="0.39727261660000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <segue destination="d3o-qH-QwD" kind="presentation" id="RWP-U5-BOu"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Musica: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AtI-2A-CUc">
                                 <rect key="frame" x="100" y="672" width="93" height="32"/>
@@ -178,6 +184,9 @@
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ma3-M7-Faj">
                                 <rect key="frame" x="291" y="672.66666666666663" width="51" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49" id="cve-ky-rbM"/>
+                                </constraints>
                             </switch>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N19-Ca-CqE">
                                 <rect key="frame" x="291" y="734" width="51" height="31"/>
@@ -210,6 +219,10 @@
                             <constraint firstItem="RaV-Ay-8UP" firstAttribute="trailing" secondItem="mjD-44-t0k" secondAttribute="trailing" id="wgA-fB-8Rc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="EfectosSwitch" destination="N19-Ca-CqE" id="BtC-R3-cMT"/>
+                        <outlet property="MusicaSwitch" destination="Ma3-M7-Faj" id="zBr-MD-p6q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JhH-VX-2w7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -545,14 +558,29 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="⌫"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVd-ef-e7x">
+                                <rect key="frame" x="120" y="856" width="200" height="50"/>
+                                <color key="backgroundColor" red="0.41960784309999999" green="0.66523581740000004" blue="0.39727261660000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="IP6-bi-SQu"/>
+                                    <constraint firstAttribute="width" constant="200" id="vK0-pP-FPo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="19"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="SALIR">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NZW-6g-DU9"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Utw-T3-JN7" firstAttribute="top" secondItem="tYQ-BA-lwg" secondAttribute="bottom" constant="420" id="LMZ-SZ-wZa"/>
+                            <constraint firstItem="NZW-6g-DU9" firstAttribute="bottom" secondItem="xVd-ef-e7x" secondAttribute="bottom" constant="50" id="Mq1-c3-zSc"/>
                             <constraint firstItem="NZW-6g-DU9" firstAttribute="trailing" secondItem="HRp-B5-sLI" secondAttribute="trailing" constant="60" id="cYz-HJ-EWZ"/>
                             <constraint firstItem="tYQ-BA-lwg" firstAttribute="top" secondItem="NZW-6g-DU9" secondAttribute="top" id="em6-oS-0gv"/>
                             <constraint firstItem="tYQ-BA-lwg" firstAttribute="leading" secondItem="NZW-6g-DU9" secondAttribute="leading" id="iVG-9I-6fr"/>
+                            <constraint firstItem="xVd-ef-e7x" firstAttribute="centerX" secondItem="Dh2-5P-xLc" secondAttribute="centerX" id="kFU-u4-0Ed"/>
                             <constraint firstItem="HRp-B5-sLI" firstAttribute="top" secondItem="Utw-T3-JN7" secondAttribute="bottom" constant="60" id="lRC-6y-qaI"/>
                             <constraint firstItem="Utw-T3-JN7" firstAttribute="centerX" secondItem="Dh2-5P-xLc" secondAttribute="centerX" id="rQM-c7-hc6"/>
                             <constraint firstItem="zk0-Pe-R0n" firstAttribute="top" secondItem="Utw-T3-JN7" secondAttribute="bottom" constant="60" id="s6M-Cr-G6h"/>
@@ -561,6 +589,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="SalirButton" destination="xVd-ef-e7x" id="O2Z-DM-kaP"/>
                         <outlet property="borrarButton" destination="zk0-Pe-R0n" id="klL-iL-2Vg"/>
                         <outlet property="enterButton" destination="HRp-B5-sLI" id="0x2-ma-1GD"/>
                         <outlet property="puntosLabel" destination="Fgr-lU-JVR" id="Lz5-il-N4D"/>
@@ -578,11 +607,11 @@
             <objects>
                 <viewController storyboardIdentifier="InstructionsVC" title="Instrucciones" id="eAJ-nb-0og" customClass="InstruccionesViewController" customModule="Wordle_5B" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7wr-Mo-E9y">
-                        <rect key="frame" x="0.0" y="0.0" width="440" height="956"/>
+                        <rect key="frame" x="0.0" y="0.0" width="440" height="946"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NOP-pf-799">
-                                <rect key="frame" x="15" y="82" width="410" height="820"/>
+                                <rect key="frame" x="15" y="20" width="410" height="906"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -603,7 +632,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ymL-72-Wi7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-181" y="-1580"/>
+            <point key="canvasLocation" x="604" y="-1463"/>
         </scene>
         <!--Records View Controller-->
         <scene sceneID="nA0-dv-guZ">

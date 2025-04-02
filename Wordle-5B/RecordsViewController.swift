@@ -14,6 +14,10 @@ class RecordsViewController: UIViewController, UITableViewDataSource {
        
        override func viewDidLoad() {
            super.viewDidLoad()
+           
+           let recordsCargados = RecordsManager.shared.cargarRecords()
+           print("Records cargados: \(recordsCargados)")
+           
            cargarRecords()
            tableView.dataSource = self
            
@@ -28,10 +32,7 @@ class RecordsViewController: UIViewController, UITableViewDataSource {
        }
        
     func cargarRecords() {
-        if let data = UserDefaults.standard.data(forKey: "records"),
-           let recordsDecodificados = try? JSONDecoder().decode([Record].self, from: data) {
-            records = Array(recordsDecodificados.sorted { $0.puntuacion > $1.puntuacion }.prefix(5))
-        }
+        records = RecordsManager.shared.cargarRecords()
     }
        
        // MARK: - UITableViewDataSource

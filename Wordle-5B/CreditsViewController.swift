@@ -19,7 +19,7 @@ class CreditsViewController: UIViewController {
 
         👨‍🎓 **Nombres de los Alumnos**  
         - Carlos Enrique Centeno Avalos - 22170028  
-        - Aviña Luciano Padilla - 23170123  
+        - Andre Luciano Aviña Padilla - 23170123  
 
         📚 **Materia**  
         Desarrollo Móvil Multiplataforma  

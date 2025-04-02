@@ -5,11 +5,21 @@ struct Record: Codable {
     let puntuacion: Int
     let tiempo: String
     let fecha: Date
+    
+    func tiempoEnSegundos() -> Int {
+        let componentes = tiempo.components(separatedBy: ":")
+        guard componentes.count == 3,
+              let horas = Int(componentes[0]),
+              let minutos = Int(componentes[1]),
+              let segundos = Int(componentes[2]) else { return 0 }
+        return horas * 3600 + minutos * 60 + segundos
+    }
 }
 
 
 class PlayViewController: UIViewController {
 
+    @IBOutlet weak var SalirButton: UIButton!
     @IBOutlet weak var vidasLabel: UILabel!
     @IBOutlet weak var tecladoStackView: UIStackView!
     @IBOutlet weak var borrarButton: UIButton!
@@ -35,10 +45,6 @@ class PlayViewController: UIViewController {
     var tiempoTranscurrido: TimeInterval = 0
     var tiempoPausado: TimeInterval = 0
     
-    // Variables de record
-    private var records: [Record] = []
-    private let maxRecords = 5
-    
     let letras = "QWERTYUIOPASDFGHJKLZXCVBNM"
     let maxIntentos = 5
     
@@ -51,16 +57,24 @@ class PlayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cargarRecords()
         palabra = palabraAleatoria().lowercased()
         print("Palabra a adivinar: \(palabra)")
         
         
         iniciarTemporizador()
-        
         inicializarJuego()
         configurarTeclado()
         configurarBotones()
+        
+        SalirButton.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            SalirButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            SalirButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            SalirButton.widthAnchor.constraint(equalToConstant: 120),
+            SalirButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -200,6 +214,13 @@ class PlayViewController: UIViewController {
         
         enterButton.addTarget(self, action: #selector(verificarPalabra), for: .touchUpInside)
         enterButton.layer.cornerRadius = 5
+
+        SalirButton.addTarget(self, action: #selector(mostrarAlertaSalir), for: .touchUpInside)
+        SalirButton.layer.cornerRadius = 5
+          
+        SalirButton.backgroundColor = UIColor.systemRed
+        SalirButton.setTitleColor(.white, for: .normal)
+        SalirButton.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
     }
     
     // MARK: - Lógica del juego
@@ -247,6 +268,28 @@ class PlayViewController: UIViewController {
         }
         
         actualizarColoresTeclado()
+    }
+    
+    
+    @objc func mostrarAlertaSalir() {
+        let alert = UIAlertController(
+            title: "¿Estás seguro de salir?",
+            message: "Se perderá tu puntuación actual y regresarás al menú principal",
+            preferredStyle: .alert
+        )
+        
+        // Acción para confirmar salida (en rojo)
+        alert.addAction(UIAlertAction(title: "Aceptar", style: .destructive) { _ in
+            // Detener temporizador y regresar al menú
+            self.detenerTemporizador()
+            self.irAMenu()
+        })
+        
+        // Acción para cancelar (mantiene en el juego)
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        
+        // Presentar la alerta centrada
+        present(alert, animated: true, completion: nil)
     }
     
     func marcarLetrasCorrectas() {
@@ -376,24 +419,11 @@ class PlayViewController: UIViewController {
     
     // MARK: - Manejo de Records
 
-    func cargarRecords() {
-        if let data = UserDefaults.standard.data(forKey: "records"),
-           let recordsDecodificados = try? JSONDecoder().decode([Record].self, from: data) {
-            records = recordsDecodificados.sorted { $0.puntuacion > $1.puntuacion }
-        }
-    }
-
-    func guardarRecords() {
-        let recordsOrdenados = records.sorted { $0.puntuacion > $1.puntuacion }
-        let topRecords = Array(recordsOrdenados.prefix(maxRecords))
-        
-        if let data = try? JSONEncoder().encode(topRecords) {
-            UserDefaults.standard.set(data, forKey: "records")
-        }
-    }
-
+    
     func esNuevoRecord() -> Bool {
-        return records.count < maxRecords || puntos > records.last?.puntuacion ?? 0
+        let tiempoFinal = tiempoLabel.text ?? "00:00:00"
+        return RecordsManager.shared.esNuevoRecord(puntuacion: puntos, tiempo: tiempoFinal)
+
     }
     
     // MARK: - Alertas y reinicio
@@ -405,19 +435,24 @@ class PlayViewController: UIViewController {
     }
     
     func palabraAleatoria() -> String {
-        let palabras: [String] = ["aviso", "bingo", "campo", "dardo", "elote", "fruta", "globo", "hongo", "ideas", "jugar", "koala", "lente", "mismo", "nieve", "orden", "pluma", "quiso", "rueda", "salto", "tango", "datos", "verde", "error", "yogur", "zorro", "trama", "robot", "nudos", "brisa"]
+        let palabras: [String] = ["aviso", "bingo", "campo", "dardo", "elote", "fruta", "globo", "hongo", "carga", "jugar", "koala", "lente", "mismo", "nieve", "orden", "pluma", "lunar", "rueda", "salto", "tango", "datos", "verde", "error", "mundo", "zorro", "trama", "robot", "pizza", "brisa"]
         return palabras.randomElement() ?? "error"
     }
     
     func gameOver() {
+        print("Records actuales: \(RecordsManager.shared.cargarRecords())")
+        
         AudioManager.shared.playLoseSound()
-        if esNuevoRecord() {
+        let tiempoFinal = tiempoLabel.text ?? "00:00:00"
+        
+        if RecordsManager.shared.esNuevoRecord(puntuacion: puntos, tiempo: tiempoFinal) {
             mostrarInputNombre()
         } else {
             mostrarAlertaGameOver()
         }
     }
 
+    
     func mostrarInputNombre() {
         let alert = UIAlertController(
             title: "¡Nuevo Récord!",
@@ -435,19 +470,8 @@ class PlayViewController: UIViewController {
                 return
             }
             
-            let nuevoRecord = Record(
-                nombre: nombre,
-                puntuacion: self.puntos,
-                tiempo: self.tiempoLabel.text ?? "00:00:00",
-                fecha: Date()
-            )
-            
-            self.records.append(nuevoRecord)
-            self.guardarRecords()
-            self.mostrarAlertaGameOver()
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel) { _ in
+            let tiempoFinal = self.tiempoLabel.text ?? "00:00:00"
+            RecordsManager.shared.agregarRecord(nombre: nombre, puntuacion: self.puntos, tiempo: tiempoFinal)
             self.mostrarAlertaGameOver()
         })
         
@@ -473,8 +497,16 @@ class PlayViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    func navegarA(pantalla: String) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: pantalla)
+        viewController.modalPresentationStyle = .fullScreen
+        viewController.modalTransitionStyle = .crossDissolve
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
     func volverAlMenu() {
-        irAMenu()
+        navegarA(pantalla: "GameVC")
     }
     
     func mostrarMensajeVictoria() {
@@ -535,15 +567,12 @@ class PlayViewController: UIViewController {
     }
     
     @objc func irAMenu() {
-        navegarA(pantalla: "GameVC")
-    }
-
-    func navegarA(pantalla: String) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        detenerTemporizador()
         
-        let viewController = storyboard.instantiateViewController(withIdentifier: pantalla)
-        viewController.modalTransitionStyle = .crossDissolve
-        viewController.modalPresentationStyle = .fullScreen
-        self.present(viewController, animated: true, completion: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let menuVC = storyboard.instantiateViewController(withIdentifier: "GameVC")
+        menuVC.modalPresentationStyle = .fullScreen
+        menuVC.modalTransitionStyle = .crossDissolve
+        present(menuVC, animated: true, completion: nil)
     }
 }
