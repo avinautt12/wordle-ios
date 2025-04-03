@@ -272,23 +272,23 @@ class PlayViewController: UIViewController {
     
     
     @objc func mostrarAlertaSalir() {
+        pausarTemporizador()
+        
         let alert = UIAlertController(
             title: "¿Estás seguro de salir?",
             message: "Se perderá tu puntuación actual y regresarás al menú principal",
             preferredStyle: .alert
         )
         
-        // Acción para confirmar salida (en rojo)
         alert.addAction(UIAlertAction(title: "Aceptar", style: .destructive) { _ in
-            // Detener temporizador y regresar al menú
             self.detenerTemporizador()
             self.irAMenu()
         })
         
-        // Acción para cancelar (mantiene en el juego)
-        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel) { _ in
+            self.reanudarTemporizador()
+        })
         
-        // Presentar la alerta centrada
         present(alert, animated: true, completion: nil)
     }
     
@@ -444,6 +444,8 @@ class PlayViewController: UIViewController {
         
         AudioManager.shared.playLoseSound()
         let tiempoFinal = tiempoLabel.text ?? "00:00:00"
+        
+        pausarTemporizador()
         
         if RecordsManager.shared.esNuevoRecord(puntuacion: puntos, tiempo: tiempoFinal) {
             mostrarInputNombre()
