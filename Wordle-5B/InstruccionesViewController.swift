@@ -25,9 +25,9 @@ class InstruccionesViewController: UIViewController {
         correcta de letras.
         2. Presiona Enter para validar tu intento.
         3. Los colores de las letras te ayudarán:
-            🟩 Verde: Letra en la posición correcta.
-            🟨 Amarillo: Letra en la palabra, pero en otra posición.
-            ⬜ Gris: Letra no está en la palabra.
+          🟢 Verde: Letra en la posición correcta.
+          🟡 Amarillo: Letra en la palabra, pero en otra posición.
+          ⚪ Blanco: Letra no está en la palabra.
         4. Usa la retroalimentación para mejorar tus intentos.
         
         🔹 Puntaje
@@ -42,7 +42,7 @@ class InstruccionesViewController: UIViewController {
         - Observa las pistas de colores para reducir posibilidades.
         - Prueba diferentes combinaciones si te quedas atascado.
         
-        ¡Buena suerte! 🎉
+        ¡Buena suerte! :)
         """
 
     }
