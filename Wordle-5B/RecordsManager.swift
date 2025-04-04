@@ -22,14 +22,11 @@ class RecordsManager {
     
     
     private init() {}
-    
-    // Records hardcodeados iniciales
-    
+        
     func cargarRecords() -> [Record] {
         if let records = cargarDesdePlist() {
             return ordenarRecords(records)
         } else {
-            // Si no existe el archivo, creamos uno con records iniciales
             guardarRecords(recordsIniciales)
             return recordsIniciales
         }
@@ -51,19 +48,15 @@ class RecordsManager {
     func esNuevoRecord(puntuacion: Int, tiempo: String) -> Bool {
         let records = cargarRecords()
         
-        // Si aún no hay 5 records, siempre es nuevo
         if records.count < maxRecords {
             return true
         }
         
-        // Comparamos con el peor record actual
         guard let peorRecord = records.last else { return true }
         
-        // Primero por puntuación
         if puntuacion > peorRecord.puntuacion {
             return true
         }
-        // Si igual puntuación, por tiempo
         else if puntuacion == peorRecord.puntuacion {
             let tiempoActual = Record(nombre: "", puntuacion: 0, tiempo: tiempo, fecha: Date()).tiempoEnSegundos()
             return tiempoActual < peorRecord.tiempoEnSegundos()
@@ -77,9 +70,9 @@ class RecordsManager {
     private func ordenarRecords(_ records: [Record]) -> [Record] {
         return records.sorted {
             if $0.puntuacion != $1.puntuacion {
-                return $0.puntuacion > $1.puntuacion // Mayor puntuación primero
+                return $0.puntuacion > $1.puntuacion
             } else {
-                return $0.tiempoEnSegundos() < $1.tiempoEnSegundos() // Menor tiempo primero
+                return $0.tiempoEnSegundos() < $1.tiempoEnSegundos()
             }
         }
     }

@@ -21,8 +21,7 @@ class RecordsViewController: UIViewController, UITableViewDataSource {
            cargarRecords()
            tableView.dataSource = self
            
-           // Configuración para eliminar scroll y ajustar altura
-           tableView.isScrollEnabled = false // Desactiva el scroll
+           tableView.isScrollEnabled = false
            tableView.reloadData()
            tableView.layoutIfNeeded()
            
@@ -45,15 +44,13 @@ class RecordsViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecordCell", for: indexPath)
         let record = records[indexPath.row]
         
-        // Configurar el contenido
         var content = cell.defaultContentConfiguration()
         content.text = "\(indexPath.row + 1). \(record.nombre) - \(record.puntuacion) pts"
-        content.textProperties.color = .black // Texto principal en negro
+        content.textProperties.color = .black
         content.secondaryText = "Tiempo: \(record.tiempo)"
-        content.secondaryTextProperties.color = .darkGray // Texto secundario en gris oscuro
+        content.secondaryTextProperties.color = .darkGray
         
-        // Fondo de la celda
-        cell.backgroundColor = .white // Fondo blanco
+        cell.backgroundColor = .white 
         cell.contentConfiguration = content
         cell.layer.masksToBounds = true
 

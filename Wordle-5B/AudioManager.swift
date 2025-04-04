@@ -24,12 +24,10 @@ class AudioManager {
     }
     
     private init() {
-        // Cargar configuración guardada o usar valores por defecto
         isSoundEnabled = UserDefaults.standard.object(forKey: "soundEnabled") as? Bool ?? true
         isMusicEnabled = UserDefaults.standard.object(forKey: "musicEnabled") as? Bool ?? true
     }
     
-    // Cargar sonidos
     private func loadSound(named fileName: String) -> AVAudioPlayer? {
         guard let path = Bundle.main.path(forResource: fileName, ofType: nil) else {
             print("Error: Archivo \(fileName) no encontrado")
@@ -47,7 +45,6 @@ class AudioManager {
         }
     }
     
-    // Música de fondo
     func playBackgroundMusic() {
         guard isMusicEnabled else { return }
         
@@ -67,7 +64,6 @@ class AudioManager {
         backgroundPlayer = nil
     }
     
-    // Efectos de sonido
     func playWinSound() {
         guard isSoundEnabled else { return }
         

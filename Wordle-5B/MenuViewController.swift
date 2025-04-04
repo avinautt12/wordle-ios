@@ -20,16 +20,13 @@ class MenuViewController: UIViewController {
       
       override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
-          // Actualizar switches cuando se vuelve a esta pantalla
           configurarSwitches()
       }
       
       private func configurarSwitches() {
-          // Configurar switches con los valores actuales
           MusicaSwitch.isOn = AudioManager.shared.isMusicEnabled
           EfectosSwitch.isOn = AudioManager.shared.isSoundEnabled
           
-          // Añadir acciones
           MusicaSwitch.addTarget(self, action: #selector(musicaSwitchChanged), for: .valueChanged)
           EfectosSwitch.addTarget(self, action: #selector(efectosSwitchChanged), for: .valueChanged)
       }

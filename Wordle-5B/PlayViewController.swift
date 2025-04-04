@@ -31,7 +31,6 @@ class PlayViewController: UIViewController {
     private var filasTablero: [UIStackView] = []
     private var contenedorTablero: UIStackView!
     
-    // Variables del juego
     var vidas = 3
     var ronda = 1
     var palabra: String = ""
@@ -48,7 +47,6 @@ class PlayViewController: UIViewController {
     let letras = "QWERTYUIOPASDFGHJKLZXCVBNM"
     let maxIntentos = 5
     
-    // Colores personalizados
     let verdeCorrecto = UIColor(red: 0.26, green: 0.63, blue: 0.28, alpha: 1.0)
     let amarilloPosicionIncorrecta = UIColor(red: 0.89, green: 0.66, blue: 0.11, alpha: 1.0)
     let grisIncorrecto = UIColor(red: 0.46, green: 0.46, blue: 0.46, alpha: 1.0)
@@ -228,6 +226,12 @@ class PlayViewController: UIViewController {
     @objc func letraPresionada(_ sender: UIButton) {
         guard let letra = sender.titleLabel?.text?.lowercased().first else { return }
         
+        if posicionActual >= palabra.count {
+               mostrarAlerta(titulo: "Límite alcanzado",
+                            mensaje: "Solo puedes ingresar \(palabra.count) letras")
+               return
+           }
+        
         if posicionActual < palabra.count && intentoActual < maxIntentos {
             intentos[intentoActual][posicionActual] = letra
             posicionActual += 1
@@ -240,6 +244,9 @@ class PlayViewController: UIViewController {
             posicionActual -= 1
             intentos[intentoActual][posicionActual] = nil
             actualizarTablero()
+        } else {
+            mostrarAlerta(titulo: "Sin letras",
+                         mensaje: "No hay letras para borrar")
         }
     }
     
@@ -313,7 +320,6 @@ class PlayViewController: UIViewController {
         var letrasMarcadas: [Character: Int] = [:]
         var conteoLetrasOculta = contarLetras(palabra)
         
-        // Primera pasada: marcar verdes
         for (index, view) in fila.arrangedSubviews.enumerated() {
             if let label = view as? UILabel,
                index < intentoArray.count,
@@ -330,7 +336,6 @@ class PlayViewController: UIViewController {
             }
         }
         
-        // Segunda pasada: marcar amarillos/grises
         for (index, view) in fila.arrangedSubviews.enumerated() {
             if let label = view as? UILabel,
                index < intentoArray.count,
